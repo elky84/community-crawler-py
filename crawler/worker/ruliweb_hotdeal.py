@@ -40,9 +40,12 @@ class RuliwebHotdeal(BaseSite):
                     continue
                 
                 _temp = ctx.select("td.hit")
-                _count = int(_temp[0].text)
+                if len(_temp) == 0 or _temp[0].text == "\n":
+                    continue
+
+                _count = int(_temp[0].text.replace("\n", ""))
                 if _count >= self.threshold:
-                    _title = ctx.select('a')[1].text
+                    _title = ctx.select('a')[1].text.replace("\n", "")
                     _link = ctx.select('a')[1].get('href')
                     obj = payload_serializer(type=self.type, link=_link, count=_count,
                                              title=_title)
