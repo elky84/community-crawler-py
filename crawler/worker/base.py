@@ -26,42 +26,41 @@ class BaseSite:
         else:
             self.db = MongoDB('community_crawler')
 
+        self.url = ""
+
     @property
     def type(self):
         return self.__class__.__name__
 
     def insert_or_update(self, data):
-        l = logger.getChild('BaseSite.insert_or_update')
-        l.info('insert data: {}'.format(data))
-        document = 'archive'
+        log = logger.getChild('BaseSite.insert_or_update')
+        log.setLevel(logging.INFO)
 
-        objid = None
-        c = None
+        log.debug('insert data: {}'.format(data))
+        collection = 'archive'
+
+        document = None
+        objectId = None
         if data.get('id') is None:
-            c = self.db.query(document) \
-                .find_one({'type': data['type'],
-                           'title': data['title']})            
+            document = self.db.query(collection).find_one({'type': data['type'], 'title': data['title']})
         else:
-            c = self.db.query(document) \
-                .find_one({'type': data['type'],
-                           'id': data['id']})
+            document = self.db.query(collection).find_one({'type': data['type'], 'id': data['id']})
                 
-        if c is None:
-            objid = self.db.insert(document, data=data)
-            l.info('insert data: {}, objid: {}'.format(data, objid))
+        if document is None:
+            self.db.insert(collection, data=data)
+            log.debug('insert data: {}'.format(data))
         else:
-            if int(c['count']) < int(data['count']):
-                l.info('update objid: {}, count {}->{}'
-                       .format(c['_id'], c['count'], data['count']))
+            if int(document['count']) < int(data['count']):
+                log.debug('update objid: {}, count {}->{}'.format(document['_id'], document['count'], data['count']))
                 d = {'count': data['count'], 'date': data['date']}
-                objid = self.db.update(document, c=c, data=d)
-                if objid['ok']:
-                    return c['_id']
+                objectId = self.db.update(collection, document=document, data=d)
+                if objectId['ok']:
+                    return document['_id']
                 
-        return objid
+        return objectId
 
     def crawling(self, url, encoding='utf-8'):
-        l = logger.getChild('BaseSite.crawling')
+        log = logger.getChild('BaseSite.crawling')
         request = Request(url, headers={
             'User-Agent':
                 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) '
@@ -69,8 +68,9 @@ class BaseSite:
         try:
             handle = urlopen(request)
         except URLError:
-            l.error('may be, url host changed: {}'.format(url))
+            log.error('may be, url host changed: {}'.format(url))
             return None
         data = handle.read()
-        soup = BeautifulSoup(data, "html.parser", from_encoding=encoding)
+        soup = BeautifulSoup(data.decode(encoding, 'ignore'), "html.parser", from_encoding="iso-8859-1")
+
         return soup

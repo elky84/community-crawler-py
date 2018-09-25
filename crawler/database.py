@@ -20,13 +20,11 @@ class MongoDB:
                              serverSelectionTimeoutMS=3)
         self.collection = client[db]
 
-    def query(self, document: str):
-        return self.collection[document]
+    def query(self, collection: str):
+        return self.collection[collection]
 
-    def insert(self, document: str, *, data: dict):
-        return self.collection[document] \
-            .insert(data)
+    def insert(self, collection: str, *, data: dict):
+        return self.collection[collection].insert(data)
 
-    def update(self, document: str, *, c, data: dict):
-        return self.collection[document] \
-            .update({'_id': c['_id']}, {'$set': data})
+    def update(self, collection: str, *, document, data: dict):
+        return self.collection[collection].update({'_id': document['_id']}, {'$set': data})

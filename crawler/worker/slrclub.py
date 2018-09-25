@@ -19,20 +19,20 @@ class Slrclub(BaseSite):
         self.pageMax = page_max
 
     def crawler(self):
-        l = logger.getChild('Slrclub.crawler')
+        log = logger.getChild('Slrclub.crawler')
         for page in range(1, self.pageMax, 1):
             host = 'http://www.slrclub.com/bbs/zboard.php'
             query = 'id=free&page={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)
             soup = self.crawling(self.url)
             if soup is None:
-                l.error('{} crawler skip'.format(self.type))
+                log.error('{} crawler skip'.format(self.type))
                 raise SkipCrawler
             yield soup
 
     def do(self):
-        l = logger.getChild('Slrclub.do')
-        l.info('start {} crawler'.format(self.type))
+        log = logger.getChild('Slrclub.do')
+        log.info('start {} crawler'.format(self.type))
         for soup in self.crawler():
             for ctx in soup.select('table#bbs_list tbody tr'):
                 if ctx.select('td.list_num'):
@@ -42,9 +42,6 @@ class Slrclub(BaseSite):
                         _id = text.get('href').split('no=')[1]
                         _count = _temp[1:-1]
                         _title = text.text
-                        _link = self.url.split('/bbs')[0] + \
-                            text.get('href')
-                        obj = payload_serializer(type=self.type, id=_id,
-                                                 link=_link, count=_count,
-                                                 title=_title)
+                        _link = self.url.split('/bbs')[0] + text.get('href')
+                        obj = payload_serializer(type=self.type, id=_id, link=_link, count=_count, title=_title)
                         self.insert_or_update(obj)

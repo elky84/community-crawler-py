@@ -20,20 +20,20 @@ class Clien(BaseSite):
         self.article_base_url = 'https://www.clien.net'
 
     def crawler(self):
-        l = logger.getChild('Clien.crawler')
+        log = logger.getChild('Clien.crawler')
         for page in range(1, self.page_max, 1):
             host = 'http://clien.net/service/board/park'
             query = 'od=T31&po={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)
             soup = self.crawling(self.url)
             if soup is None:
-                l.error('{} crawler skip'.format(self.type))
+                log.error('{} crawler skip'.format(self.type))
                 raise SkipCrawler
             yield soup
 
     def do(self):
-        l = logger.getChild('Clien.do')
-        l.info('start {} crawler'.format(self.type))
+        log = logger.getChild('Clien.do')
+        log.info('start {} crawler'.format(self.type))
         for soup in self.crawler():
             # https://github.com/liza183/clienBBS/blob/master/clien.py 
             for ctx in soup.find_all('div', {"class": 'list_item symph_row'}):

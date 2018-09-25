@@ -19,20 +19,20 @@ class RuliwebHotdeal(BaseSite):
         self.pageMax = page_max
 
     def crawler(self):
-        l = logger.getChild('RuliwebHotdeal.crawler')
+        log = logger.getChild('RuliwebHotdeal.crawler')
         for page in range(1, self.pageMax, 1):
             host = 'http://bbs.ruliweb.com/market/board/1020'
             query = 'page={}'.format(page, page)
             self.url = '{host}?{query}'.format(host=host, query=query)
             soup = self.crawling(self.url)
             if soup is None:
-                l.error('{} crawler skip'.format(self.type))
+                log.error('{} crawler skip'.format(self.type))
                 raise SkipCrawler
             yield soup
 
     def do(self):
-        l = logger.getChild('RuliwebHotdeal.do')
-        l.info('start {} crawler'.format(self.type))
+        log = logger.getChild('RuliwebHotdeal.do')
+        log.info('start {} crawler'.format(self.type))
         for soup in self.crawler():
             for ctx in soup.select('tbody tr'):
                 tr_class = ctx.attrs['class']
@@ -47,6 +47,5 @@ class RuliwebHotdeal(BaseSite):
                 if _count >= self.threshold:
                     _title = ctx.select('a')[1].text.replace("\n", "")
                     _link = ctx.select('a')[1].get('href')
-                    obj = payload_serializer(type=self.type, link=_link, count=_count,
-                                             title=_title)
+                    obj = payload_serializer(type=self.type, link=_link, count=_count, title=_title)
                     self.insert_or_update(obj)
