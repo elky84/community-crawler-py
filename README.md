@@ -1,3 +1,15 @@
+[![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg?label=elky-essay)](https://elky84.github.io)
+<img src="https://img.shields.io/badge/made%20with-Python-brightgreen.svg" alt="made with Python">
+
+![GitHub forks](https://img.shields.io/github/forks/elky84/community_crawler.svg?style=social&label=Fork)
+![GitHub stars](https://img.shields.io/github/stars/elky84/community_crawler.svg?style=social&label=Stars)
+![GitHub watchers](https://img.shields.io/github/watchers/elky84/community_crawler.svg?style=social&label=Watch)
+![GitHub followers](https://img.shields.io/github/followers/elky84.svg?style=social&label=Follow)
+
+![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
+![GitHub repo size in bytes](https://img.shields.io/github/repo-size/elky84/community_crawler.svg)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/elky84/community_crawler.svg)
+
 # 커뮤니티 크롤러
 대한민국 커뮤니티에 올라오는 많은 게시물 중에서 덧글이 일정량 이상인 글들에 한해서만 크롤링하여 저장하는 머신 입니다.
 
