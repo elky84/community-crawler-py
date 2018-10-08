@@ -40,7 +40,7 @@ class Clien(BaseSite):
                 #_temp = ctx.select('div#list_reply reply_symph')
                 _count = int(ctx.findAll("div")[3].span.text)
                 if _count >= self.threshold:
-                    _title = ctx.findAll("span")[1].text
+                    _title = ctx.find("div",{"class":"list_title"}).span.text
                     _link = self.article_base_url + ctx.find("a",{"class":"list_subject"})['href']
                     _author = ctx['data-author-id'].strip()
                     _timestamp = ctx.find("div",{"class":"list_time"}).span.span.text
