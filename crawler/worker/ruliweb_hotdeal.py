@@ -36,7 +36,7 @@ class RuliwebHotdeal(BaseSite):
         for soup in self.crawler():
             for ctx in soup.select('tbody tr'):
                 tr_class = ctx.attrs['class']
-                if len(tr_class) == 2 and tr_class[1] == "notice":
+                if 2 <= len(tr_class) and tr_class[1] == "notice":
                     continue
                 
                 _temp = ctx.select("td.hit")
