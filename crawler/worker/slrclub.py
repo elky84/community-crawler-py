@@ -38,9 +38,12 @@ class Slrclub(BaseSite):
                 if ctx.select('td.list_num'):
                     text = ctx.a.extract()
                     _temp = ctx.select('td.sbj')[0].text.strip()
-                    if _temp != '' and int(_temp[1:-1]) >= self.threshold:
+                    if _temp != '':
+                        continue;
+
+                    _count = int(_temp[1:-1])
+                    if _count >= self.threshold:
                         _id = text.get('href').split('no=')[1]
-                        _count = _temp[1:-1]
                         _title = text.text
                         _link = self.url.split('/bbs')[0] + text.get('href')
                         obj = payload_serializer(type=self.type, id=_id, link=_link, count=_count, title=_title)

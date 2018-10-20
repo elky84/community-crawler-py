@@ -36,8 +36,8 @@ class RuliwebHobby(BaseSite):
         for soup in self.crawler():
             for ctx in soup.select('tbody tr'):
                 _temp = ctx.select('span.num_reply span.num')
-                _count = _temp[0].text
-                if int(_count) >= self.threshold:
+                _count = int(_temp[0].text)
+                if _count >= self.threshold:
                     _title = ctx.select('a.subject_text')[0].contents[0]
                     _link = ctx.select('a')[1].get('href')
                     obj = payload_serializer(type=self.type, link=_link, count=_count, title=_title)

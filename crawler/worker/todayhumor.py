@@ -36,9 +36,12 @@ class Todayhumor(BaseSite):
         for soup in self.crawler():
             for ctx in soup.select('td.subject'):
                 _temp = ctx.select('span')
-                if len(_temp) != 0 and int(_temp[0].text[2:-1]) >= self.threshold:
+                if len(_temp) <= 0:
+                    continue
+
+                _count = int(_temp[0].text[2:-1])
+                if _count >= self.threshold:
                     _id = ctx.select('a')[0].get('href').split('s_no=')[1].split('&page')[0]
-                    _count = _temp[0].text[2:-1]
                     _title = ctx.select('a')[0].text
                     _link = self.url.split('/board/list.php')[0] + ctx.select('a')[0].get('href')
                     obj = payload_serializer(type=self.type, id=_id, link=_link, count=_count, title=_title)

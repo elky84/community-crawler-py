@@ -40,7 +40,7 @@ class Ppomppu(BaseSite):
                     _temp = ctx.select('span.list_comment2')
                     if len(_temp) != 0 and int(_temp[0].text) >= self.threshold:
                         _id = ctx.select('a')[1].get('href').split('no=')[1]
-                        _count = _temp[0].text.strip()
+                        _count = int(_temp[0].text.strip())
                         _title = ctx.select('a')[1].text
                         _link = self.url.split('zboard.php')[0] + ctx.select('a')[1].get('href')
                         obj = payload_serializer(type=self.type, id=_id, link=_link, count=_count, title=_title)
