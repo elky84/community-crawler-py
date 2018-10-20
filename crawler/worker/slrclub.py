@@ -39,7 +39,7 @@ class Slrclub(BaseSite):
                     text = ctx.a.extract()
                     _temp = ctx.select('td.sbj')[0].text.strip()
                     if _temp != '':
-                        continue;
+                        continue
 
                     _count = int(_temp[1:-1])
                     if _count >= self.threshold:

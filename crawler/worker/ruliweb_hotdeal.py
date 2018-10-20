@@ -22,7 +22,7 @@ class RuliwebHotdeal(BaseSite):
         log = logger.getChild('RuliwebHotdeal.crawler')
         for page in range(1, self.pageMax, 1):
             host = 'http://bbs.ruliweb.com/market/board/1020'
-            query = 'page={}'.format(page, page)
+            query = 'page={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)
             soup = self.crawling(self.url)
             if soup is None:
