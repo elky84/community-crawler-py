@@ -38,7 +38,7 @@ class Slrclub(BaseSite):
                 if ctx.select('td.list_num'):
                     text = ctx.a.extract()
                     _temp = ctx.select('td.sbj')[0].text.strip()
-                    if _temp != '':
+                    if _temp == '':
                         continue
 
                     _count = int(_temp[1:-1])
