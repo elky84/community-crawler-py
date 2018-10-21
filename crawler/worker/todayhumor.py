@@ -7,6 +7,7 @@ import logging
 from .base import BaseSite
 from ..exc import SkipCrawler
 from ..serializers import payload_serializer
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,6 @@ class Todayhumor(BaseSite):
                 if _count >= self.threshold:
                     _id = ctx.select('a')[0].get('href').split('s_no=')[1].split('&page')[0]
                     _title = ctx.select('a')[0].text
-                    _link = self.url.split('/board/list.php')[0] + ctx.select('a')[0].get('href')
+                    _link = re.sub("&page=[0-9]", "", self.url.split('/board/list.php')[0] + ctx.select('a')[0].get('href'))
                     obj = payload_serializer(type=self.type, id=_id, link=_link, count=_count, title=_title)
                     self.insert_or_update(obj)

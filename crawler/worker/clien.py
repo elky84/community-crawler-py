@@ -41,7 +41,7 @@ class Clien(BaseSite):
                 _count = int(ctx.findAll("div")[3].span.text)
                 if _count >= self.threshold:
                     _title = ctx.find("div",{"class":"list_title"}).span.text
-                    _link = self.article_base_url + ctx.find("a",{"class":"list_subject"})['href']
+                    _link = self.article_base_url + ctx.find("a",{"class":"list_subject"})['href'].split('?')[0] # 쿼리파라미터 제거
                     _author = ctx['data-author-id'].strip()
                     _timestamp = ctx.find("div",{"class":"list_time"}).span.span.text
                         
