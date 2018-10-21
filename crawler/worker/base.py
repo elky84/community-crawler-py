@@ -42,7 +42,7 @@ class BaseSite:
         document = None
         objectId = None
         if data.get('id') is None:
-            document = self.db.query(collection).find_one({'type': data['type'], 'title': data['title']})
+            document = self.db.query(collection).find_one({'type': data['type'], 'link': data['link']})
         else:
             document = self.db.query(collection).find_one({'type': data['type'], 'id': data['id']})
                 
