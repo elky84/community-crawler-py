@@ -46,6 +46,6 @@ class RuliwebHotdeal(BaseSite):
                 _count = int(_temp[0].text.replace("\n", ""))
                 if _count >= self.threshold:
                     _title = ctx.select('a')[1].text.replace("\n", "")
-                    _link = ctx.select('a')[1].get('href')
+                    _link = ctx.select('a')[1].get('href').split('?')[0] # 쿼리파라미터 제거
                     obj = payload_serializer(type=self.type, link=_link, count=_count, title=_title)
                     self.insert_or_update(obj)
