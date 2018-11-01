@@ -6,6 +6,7 @@ import logging
 
 from urllib.error import URLError
 from urllib.request import Request, urlopen
+from datetime import date, timedelta, datetime
 
 from bs4 import BeautifulSoup
 
@@ -47,6 +48,11 @@ class BaseSite:
             document = self.db.query(collection).find_one({'type': data['type'], 'id': data['id']})
                 
         if document is None:
+            document_by_title = self.db.query(collection).find_one({'type': data['type'], 'title': data['title']})
+            if document_by_title is not None:
+                if document_by_title['date'] - datetime.datetime.now(tz=datetime.timezone.utc) < timedelta(hours = 1):
+                    return None
+
             self.db.insert(collection, data=data)
             log.debug('insert data: {}'.format(data))
         else:

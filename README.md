@@ -32,6 +32,12 @@
 ## 기동
 - python3 serve.py
 
+## MONGO DB 인덱스 추가
+- db.getCollection("archive").createIndex({ "count": 1 })
+- db.getCollection("archive").createIndex({ "date": -1 })
+- db.getCollection("archive").createIndex({ "link": 1 })
+- db.getCollection("archive").createIndex({ "type": 1 })
+- db.getCollection("archive").createIndex({ "title": 1 })
 
 ## License
 MIT (http://www.opensource.org/licenses/mit-license.php)
