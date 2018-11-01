@@ -52,7 +52,7 @@ class BaseSite:
         else:
             if int(document['count']) < int(data['count']):
                 log.debug('update objid: {}, count {}->{}'.format(document['_id'], document['count'], data['count']))
-                d = {'count': data['count'], 'update': data['date']}
+                d = {'count': data['count'], 'update': data['date'], 'title': data['title']}
                 objectId = self.db.update(collection, document=document, data=d)
                 if objectId['ok']:
                     return document['_id']
