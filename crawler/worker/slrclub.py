@@ -37,11 +37,11 @@ class Slrclub(BaseSite):
             for ctx in soup.select('table#bbs_list tbody tr'):
                 if ctx.select('td.list_num'):
                     text = ctx.a.extract()
-                    _temp = ctx.select('td.sbj')[0].text.strip()
+                    _temp = ctx.select('td.list_click.no_att')[0].text.strip()
                     if _temp == '':
                         continue
 
-                    _count = int(_temp[1:-1])
+                    _count = int(_temp)
                     if _count >= self.threshold:
                         _id = text.get('href').split('no=')[1]
                         _title = text.text
