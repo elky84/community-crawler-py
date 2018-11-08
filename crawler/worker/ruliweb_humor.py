@@ -35,8 +35,11 @@ class RuliwebHumor(BaseSite):
         log.info('start {} crawler'.format(self.type))
         for soup in self.crawler():
             for ctx in soup.select('tbody tr'):
-                _temp = ctx.select('span.num_reply span.num')
-                _count = int(_temp[0].text)
+                _temp = ctx.select("td.hit")
+                if len(_temp) == 0 or _temp[0].text == "\n":
+                    continue
+                    
+                _count = int(_temp[0].text.replace("\n", ""))
                 if _count >= self.threshold:
                     _title = ctx.select('a')[1].text
                     _link = ctx.select('a')[1].get('href')
