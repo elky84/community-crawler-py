@@ -36,9 +36,14 @@ class Clien(BaseSite):
         log.info('start {} crawler'.format(self.type))
         for soup in self.crawler():
             # https://github.com/liza183/clienBBS/blob/master/clien.py 
-            for ctx in soup.find_all('div', {"class": 'list_item symph_row'}):
-                #_temp = ctx.select('div#list_reply reply_symph')
-                _count = int(ctx.findAll("div")[3].span.text)
+            # 맨 끝에 space 2개... 클리앙...
+            for ctx in soup.find_all('div', {"class": 'list_item symph_row  '}):
+                _count = ctx.findAll("div")[3].span.text # 문자열 축약 처리가 있어 바로 int 캐스팅 못하고, 축약 검사.
+                if ' k' in _count: # 더 많은 히트수가 있을 수 있으나, k로만 축약했다는 가정...흠...
+                    _count = int(_count.replace(" k", "")) * 1000
+                else:
+                    _count = int(_count)
+                
                 if _count >= self.threshold:
                     _title = ctx.find("div",{"class":"list_title"}).span.text
                     _link = self.article_base_url + ctx.find("a",{"class":"list_subject"})['href'].split('?')[0] # 쿼리파라미터 제거
