@@ -35,15 +35,16 @@ class Todayhumor(BaseSite):
         log = logger.getChild('Todayhumor.do')
         log.info('start {} crawler'.format(self.type))
         for soup in self.crawler():
-            for ctx in soup.select('td.subject'):
-                _temp = ctx.select('span')
+            for ctx in soup.select('tbody tr'):
+                _temp = ctx.select('td.hits')
                 if len(_temp) <= 0:
                     continue
 
-                _count = int(_temp[0].text[2:-1])
+                _subject = ctx.select('td.subject')[0]
+                _count = int(_temp[0].text)
                 if _count >= self.threshold:
-                    _id = ctx.select('a')[0].get('href').split('s_no=')[1].split('&page')[0]
-                    _title = ctx.select('a')[0].text
-                    _link = re.sub("&page=[0-9]", "", self.url.split('/board/list.php')[0] + ctx.select('a')[0].get('href'))
+                    _id = _subject.select('a')[0].get('href').split('s_no=')[1].split('&page')[0]
+                    _title = _subject.select('a')[0].text
+                    _link = re.sub("&page=[0-9]", "", self.url.split('/board/list.php')[0] + _subject.select('a')[0].get('href'))
                     obj = payload_serializer(type=self.type, id=_id, link=_link, count=_count, title=_title)
                     self.insert_or_update(obj)
