@@ -22,6 +22,7 @@ from crawler.worker.slrclub import Slrclub
 from crawler.worker.todayhumor import Todayhumor
 
 from pymongo.errors import ServerSelectionTimeoutError
+from time import sleep
 
 logger = logging.getLogger('crawler')
 logging.config.dictConfig(crawler_config.logging_formatter)
@@ -46,7 +47,9 @@ class Crawler(threading.Thread):
                 l.info('crawler skip')
             except:
                 l.error('unhandled exception')
-            
+
+            sleep(int(crawler_config.crawler_interval['sec']))
+
         self.queue.task_done()
 
 
