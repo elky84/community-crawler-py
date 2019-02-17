@@ -6,6 +6,8 @@ import logging
 import logging.config
 import random
 import threading
+import sys
+import os
 
 from datetime import datetime, timedelta
 
@@ -45,8 +47,11 @@ class Crawler(threading.Thread):
                 self.is_stop = True
             except SkipCrawler:
                 l.info('crawler skip')
-            except:
-                l.error('unhandled exception')
+            except Exception as e: 
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                l.error(e)
+                l.error(exc_type, fname, exc_tb.tb_lineno)
 
             sleep(int(crawler_config.crawler_interval['sec']))
 

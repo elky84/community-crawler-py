@@ -34,7 +34,7 @@ class BaseSite:
         return self.__class__.__name__
 
     def insert_or_update(self, data):
-        log = logger.getChild('BaseSite.insert_or_update')
+        log = logger.getChild(self.type + 'insert_or_update')
         log.setLevel(logging.INFO)
 
         log.debug('insert data: {}'.format(data))
@@ -68,7 +68,7 @@ class BaseSite:
         return objectId
 
     def crawling(self, url, encoding='utf-8'):
-        log = logger.getChild('BaseSite.crawling')
+        log = logger.getChild(self.type + 'crawling')
         request = Request(url, headers={
             'User-Agent':
                 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) '
