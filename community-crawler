@@ -1,0 +1,86 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          root
+# Required-Start:    $local_fs $remote_fs $network
+# Required-Stop:     $local_fs $remote_fs $network
+# Should-Start:      $named
+# Should-Stop:       $named
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start community_crawler.
+# Description:       Start community_crawler.
+### END INIT INFO
+
+# deb http://extras.ubuntu.com/ubuntu trusty main
+# deb-src http://extras.ubuntu.com/ubuntu trusty main
+
+SERVICE_NAME=community_crawler
+
+PYTHON_SERVE_PY=##INPUT_YOUR_PATH_BY_serve.py##
+PIDFILE=##INPUT_YOUR_PID_PATH##
+
+start() {
+  if [ -f "$PIDFILE" ] && kill -0 $(cat "$PIDFILE"); then
+    echo 'Service already running' >&2
+    return 1
+  fi
+  echo 'Starting service…' >&2
+  nohup python3 $PYTHON_SERVE_PY &
+   echo $! > $PIDFILE
+  echo 'Service started' >&2
+}
+
+stop() {
+  if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
+    echo 'Service not running' >&2
+    return 1
+  fi
+  echo 'Stopping service…' >&2
+  kill -15 $(cat "$PIDFILE") && rm -f "$PIDFILE"
+  echo 'Service stopped' >&2
+}
+
+install() {
+  echo -n "Are you really sure you want to install this service? That cannot be undone. [yes|No] "
+  local SURE
+  read SURE
+  if [ "$SURE" = "yes" ]; then
+    update-rc.d -f community-crawler defaults
+  fi
+}
+
+uninstall() {
+  echo -n "Are you really sure you want to uninstall this service? That cannot be undone. [yes|No] "
+  local SURE
+  read SURE
+  if [ "$SURE" = "yes" ]; then
+    stop
+    rm -f "$PIDFILE"
+
+    update-rc.d -f community-crawler remove
+    rm -fv "$0"
+  fi
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  install)
+    install
+    ;;
+  uninstall)
+    uninstall
+    ;;
+  retart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|install|uninstall}"
+esac
+

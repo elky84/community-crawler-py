@@ -32,6 +32,16 @@
 ## 기동
 - python3 serve.py
 
+## 서비스 
+### 선행 작업
+- 먼저 community-crawler 안의 pid 폴더, serve.py 파일 위치를 조정해주자.
+### 서비스 설치
+- mv community-crawler /etc/init.d/community-crawler
+- chmod 775 /etc/init.d/community-crawler
+- systemctl daemon-reload
+- service community-crawler install
+- service community-crawler start
+
 ## MONGO DB 인덱스 추가
 - db.getCollection("archive").createIndex({ "count": 1 })
 - db.getCollection("archive").createIndex({ "date": -1 })
