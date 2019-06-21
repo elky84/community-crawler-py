@@ -22,11 +22,7 @@ logger = logging.getLogger(__name__)
 class BaseSite:
 
     def __init__(self):
-        if crawler_config.debug:
-            self.db = MongoDB('test_crawler')
-        else:
-            self.db = MongoDB('community_crawler')
-
+        self.db = MongoDB(crawler_config.db_name)
         self.url = ""
 
     @property
