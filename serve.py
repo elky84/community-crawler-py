@@ -70,7 +70,7 @@ def crawler(*, queue: Queue):
         RuliwebHumor(threshold=500, page_max=10),
         RuliwebHotdeal(threshold=0, page_max=3),
         ThisisgamePad(threshold=0, page_max=3),
-        FmKorea(threshold=0, page_max=3),
+        FmKorea(threshold=0, page_max=1),
     ]
     thread_num = len(sites)
     for site in sites:
