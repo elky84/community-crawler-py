@@ -67,8 +67,7 @@ class BaseSite:
         log = logger.getChild(self.type + 'crawling')
         request = Request(url, headers={
             'User-Agent':
-                'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) '
-                'Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1'})
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36)'})
         try:
             handle = urlopen(request)
         except URLError:
@@ -76,5 +75,5 @@ class BaseSite:
             return None
         data = handle.read()
         soup = BeautifulSoup(data.decode(encoding, 'ignore'), "html.parser", from_encoding="iso-8859-1")
-
+        # log.debug('soup text: {}'.format(soup.text))
         return soup

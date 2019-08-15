@@ -40,7 +40,7 @@ class Clien(BaseSite):
             for ctx in soup.find_all('div', {"class": 'list_item symph_row  '}):
                 _count = ctx.findAll("div")[3].span.text # 문자열 축약 처리가 있어 바로 int 캐스팅 못하고, 축약 검사.
                 if ' k' in _count: # 더 많은 히트수가 있을 수 있으나, k로만 축약했다는 가정...흠...
-                    _count = int(_count.replace(" k", "")) * 1000
+                    _count = int(float(_count.replace(" k", "")) * 1000)
                 else:
                     _count = int(_count)
                 
