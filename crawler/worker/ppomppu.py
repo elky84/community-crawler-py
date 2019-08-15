@@ -21,7 +21,7 @@ class Ppomppu(BaseSite):
 
     def crawler(self):
         log = logger.getChild('Ppomppu.crawler')
-        for page in range(1, self.pageMax, 1):
+        for page in range(1, self.pageMax + 1, 1):
             host = 'http://www.ppomppu.co.kr/zboard/zboard.php'
             query = 'id=freeboard&page={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)

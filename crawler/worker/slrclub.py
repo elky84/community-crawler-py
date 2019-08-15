@@ -20,7 +20,7 @@ class Slrclub(BaseSite):
 
     def crawler(self):
         log = logger.getChild('Slrclub.crawler')
-        for page in range(1, self.pageMax, 1):
+        for page in range(1, self.pageMax + 1, 1):
             host = 'http://www.slrclub.com/bbs/zboard.php'
             query = 'id=free&page={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)

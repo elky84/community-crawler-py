@@ -21,7 +21,7 @@ class Todayhumor(BaseSite):
 
     def crawler(self):
         log = logger.getChild('Todayhumor.crawler')
-        for page in range(1, self.pageMax, 1):
+        for page in range(1, self.pageMax + 1, 1):
             host = 'http://www.todayhumor.co.kr/board/list.php'
             query = 'table=bestofbest&page={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)

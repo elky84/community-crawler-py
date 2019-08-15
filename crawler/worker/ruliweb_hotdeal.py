@@ -20,7 +20,7 @@ class RuliwebHotdeal(BaseSite):
 
     def crawler(self):
         log = logger.getChild('RuliwebHotdeal.crawler')
-        for page in range(1, self.pageMax, 1):
+        for page in range(1, self.pageMax + 1, 1):
             host = 'http://bbs.ruliweb.com/market/board/1020'
             query = 'page={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)

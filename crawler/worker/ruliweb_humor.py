@@ -20,7 +20,7 @@ class RuliwebHumor(BaseSite):
 
     def crawler(self):
         log = logger.getChild('RuliwebHumor.crawler')
-        for page in range(1, self.pageMax, 1):
+        for page in range(1, self.pageMax + 1, 1):
             host = 'http://bbs.ruliweb.com/best/selection'
             query = 'page={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)

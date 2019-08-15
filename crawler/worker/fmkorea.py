@@ -20,7 +20,7 @@ class FmKorea(BaseSite):
 
     def crawler(self):
         log = logger.getChild('FmKorea.crawler')
-        for page in range(1, self.pageMax, 1):
+        for page in range(1, self.pageMax + 1, 1):
             host = 'https://www.fmkorea.com/index.php'
             query = 'mid=football_news&page={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)

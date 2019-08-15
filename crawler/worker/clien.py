@@ -21,7 +21,7 @@ class Clien(BaseSite):
 
     def crawler(self):
         log = logger.getChild('Clien.crawler')
-        for page in range(1, self.page_max, 1):
+        for page in range(1, self.pageMax + 1, 1):
             host = 'http://clien.net/service/board/park'
             query = 'od=T31&po={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)

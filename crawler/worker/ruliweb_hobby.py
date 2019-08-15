@@ -20,7 +20,7 @@ class RuliwebHobby(BaseSite):
 
     def crawler(self):
         log = logger.getChild('RuliwebHobby.crawler')
-        for page in range(1, self.pageMax, 1):
+        for page in range(1, self.pageMax + 1, 1):
             host = 'http://bbs.ruliweb.com/hobby'
             query = 'type=hit&orderby=regdate&pageIndex={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)
