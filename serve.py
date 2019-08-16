@@ -15,15 +15,20 @@ from queue import Queue
 
 from crawler.config import crawler_config
 from crawler.exc import SkipCrawler, TerminatedCrawler
+
 from crawler.worker.clien import Clien
 from crawler.worker.ppomppu import Ppomppu
-from crawler.worker.ruliweb_humor import RuliwebHumor
-from crawler.worker.ruliweb_hobby import RuliwebHobby
-from crawler.worker.ruliweb_hotdeal import RuliwebHotdeal
 from crawler.worker.slrclub import Slrclub
 from crawler.worker.todayhumor import Todayhumor
 from crawler.worker.thisisgame_pad import ThisisgamePad
 from crawler.worker.fmkorea import FmKorea
+from crawler.worker.inven_esports import InvenEsports
+
+from crawler.worker.ruliweb_humor import RuliwebHumor
+from crawler.worker.ruliweb_hobby import RuliwebHobby
+from crawler.worker.ruliweb_hotdeal import RuliwebHotdeal
+from crawler.worker.ruliweb_console_news import RuliwebConsoleNews
+from crawler.worker.ruliweb_pc_news import RuliwebPcNews
 
 from pymongo.errors import ServerSelectionTimeoutError
 from time import sleep
@@ -68,9 +73,12 @@ def crawler(*, queue: Queue):
         Todayhumor(threshold=500, page_max=10),
         RuliwebHobby(threshold=500, page_max=10),
         RuliwebHumor(threshold=500, page_max=10),
+        RuliwebConsoleNews(threshold=100, page_max=3),
+        RuliwebPcNews(threshold=100, page_max=3),
         RuliwebHotdeal(threshold=0, page_max=3),
         ThisisgamePad(threshold=0, page_max=3),
         FmKorea(threshold=0, page_max=1),
+        InvenEsports(threshold=0, page_max=3),
     ]
     thread_num = len(sites)
     for site in sites:

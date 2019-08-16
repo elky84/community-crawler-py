@@ -16,7 +16,7 @@ class Clien(BaseSite):
     def __init__(self, *, threshold=20, page_max=20):
         BaseSite.__init__(self)
         self.threshold = threshold
-        self.page_max = page_max
+        self.pageMax = page_max
         self.article_base_url = 'https://www.clien.net'
 
     def crawler(self):
