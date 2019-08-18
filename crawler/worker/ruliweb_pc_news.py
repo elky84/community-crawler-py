@@ -41,7 +41,8 @@ class RuliwebPcNews(BaseSite):
                     
                 _count = int(_temp[0].text.replace("\n", ""))
                 if _count >= self.threshold:
-                    _title = ctx.select('a')[1].text
+                    a_tag = ctx.select('a')
+                    _title = '[{category}] {title}'.format(category=a_tag[0].text, title=a_tag[1].text)
                     _link = ctx.select('a')[1].get('href')
                     obj = payload_serializer(type=self.type, link=_link, count=_count, title=_title)
                     self.insert_or_update(obj)
