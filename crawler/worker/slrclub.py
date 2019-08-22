@@ -20,9 +20,21 @@ class Slrclub(BaseSite):
 
     def crawler(self):
         log = logger.getChild('Slrclub.crawler')
+        url = 'http://www.slrclub.com/bbs/zboard.php?id=free'
+        soup = self.crawling(url)
+        if soup is None:
+            log.error('{} crawler skip'.format(self.type))
+            raise SkipCrawler
+
+        bbs_foot = soup.select('table#bbs_foot')[0]
+        tr = bbs_foot.select('tr')
+        list_num = tr[1].select('td')
+        a = list_num[0].select('a')
+        pageCount = int(a[11].get('href').split('page=')[1])
+
         for page in range(1, self.pageMax + 1, 1):
             host = 'http://www.slrclub.com/bbs/zboard.php'
-            query = 'id=free&page={}'.format(page)
+            query = 'id=free&page={}'.format(pageCount - page + 1)
             self.url = '{host}?{query}'.format(host=host, query=query)
             soup = self.crawling(self.url)
             if soup is None:
