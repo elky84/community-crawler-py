@@ -21,7 +21,7 @@ class ThisisgamePad(BaseSite):
     def crawler(self):
         log = logger.getChild('ThisisgamePad.crawler')
         for page in range(1, self.pageMax + 1, 1):
-            host = 'http://www.thisisgame.com/pad/tboard/?board=21'
+            host = 'https://www.thisisgame.com/pad/tboard/?board=21'
             query = 'page&page={}'.format(page)
             self.url = '{host}?{query}'.format(host=host, query=query)
             soup = self.crawling(self.url)
