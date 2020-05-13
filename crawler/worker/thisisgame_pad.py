@@ -21,9 +21,9 @@ class ThisisgamePad(BaseSite):
     def crawler(self):
         log = logger.getChild('ThisisgamePad.crawler')
         for page in range(1, self.pageMax + 1, 1):
-            host = 'https://www.thisisgame.com/pad/tboard/?board=21'
+            self.host = 'https://www.thisisgame.com/pad/tboard/?board=21'
             query = 'page&page={}'.format(page)
-            self.url = '{host}?{query}'.format(host=host, query=query)
+            self.url = '{host}?{query}'.format(host=self.host, query=query)
             soup = self.crawling(self.url)
             if soup is None:
                 log.error('{} crawler skip'.format(self.type))
@@ -50,6 +50,6 @@ class ThisisgamePad(BaseSite):
                 _count = int(_temp[1].text.replace("\n", ""))
                 if _count >= self.threshold:
                     _title = ctx.select('a')[0].text
-                    _link = self.url.split('/pad')[0] + ctx.select('a')[0].get('href')
+                    _link = self.host + ctx.select('a')[0].get('href')
                     obj = payload_serializer(type=self.type, link=_link, count=_count, title=_title)
                     self.insert_or_update(obj)
