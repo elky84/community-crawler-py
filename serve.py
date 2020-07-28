@@ -40,7 +40,6 @@ logging.config.dictConfig(crawler_config.logging_formatter)
 class Crawler(threading.Thread):
     def __init__(self, queue):
         threading.Thread.__init__(self)
-        self.is_stop = False
         self.queue = queue
 
     def run(self):
@@ -51,9 +50,9 @@ class Crawler(threading.Thread):
             try:
                 site.do()
             except ServerSelectionTimeoutError:
-                self.is_stop = True
+                l.info('ServerSelectionTimeoutError')
             except SkipCrawler:
-                l.info('crawler skip')
+                l.info('SkipCrawler')
             except Exception as e: 
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -108,11 +107,10 @@ if __name__ == '__main__':
                 oldtime = datetime.now()
                 workers = crawler(queue=queue)
                 queue.join()
-                for w in workers:
-                    if w.is_stop:
-                        raise TerminatedCrawler
                 count += 1
                 l.info("finish crawler: {}".format(count))
         except (KeyboardInterrupt, TerminatedCrawler):
             l.info('terminated crawler')
             exit()
+        except Exception as e:
+            l.info('exception catched. {}'.format(e))

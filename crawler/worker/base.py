@@ -69,11 +69,27 @@ class BaseSite:
             'User-Agent':
                 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36)'})
         try:
-            handle = urlopen(request)
+            handle = urlopen(request, timeout=10)
         except URLError:
             log.error('may be, url host changed: {}'.format(url))
             return None
-        data = handle.read()
-        soup = BeautifulSoup(data.decode(encoding, 'ignore'), "html.parser", from_encoding="iso-8859-1")
-        # log.debug('soup text: {}'.format(soup.text))
-        return soup
+        except TimeoutError:
+            log.error('urlopen timeout: {}'.format(url))
+            return None
+        except Exception as e:
+            log.error('urlopen exception raised. {} {}'.format(url, e))
+            return None
+            
+        if handle.status != 200:
+            log.error('http status is not 200. {} {}'.format(url, handle.status))
+            return None
+
+        try:
+            data = handle.read()
+            soup = BeautifulSoup(data.decode(encoding, 'ignore'), "html.parser", from_encoding="iso-8859-1")
+            # log.debug('soup text: {}'.format(soup.text))
+            return soup
+        except Exception as e:
+            log.error('handle.read() or BeautifulSoup exception raised. {} {}'.format(url, e))
+            return None
+
