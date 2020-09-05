@@ -21,6 +21,11 @@
 - 루리웹 [유머 베스트 게시판](http://bbs.ruliweb.com/best/selection)
 - 루리웹 [핫딜 게시판](http://bbs.ruliweb.com/market/board/1020)
 - 루리웹 [취미 게시판](http://bbs.ruliweb.com/hobby)
+- 루리웹 [PC 뉴스 게시판](http://bbs.ruliweb.com/market/board/1003)
+- 루리웹 [콘솔 뉴스 게시판](http://bbs.ruliweb.com/market/board/1001)
+- 인벤 [e스포츠](http://www.inven.co.kr/webzine/news?iskin=esports)
+- 디스 이즈 게임 [퍼즐 앤 드래곤](https://www.thisisgame.com/pad/tboard/?board=21)
+- 에펨코 [풋볼 뉴스](https://www.fmkorea.com/index.php?mid=football_news)
 
 ## 설치 및 개발 환경
 - python 3.x, [Mongodb](https://www.mongodb.org), [virtualwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/)
@@ -34,13 +39,12 @@
 
 ## 서비스 
 ### 선행 작업
-- 먼저 community-crawler 안의 pid 폴더, serve.py 파일 위치를 조정해주자.
+- 먼저 community-crawler-py 안의 pid 폴더, serve.py 파일 위치를 조정해주자.
 ### 서비스 설치
-- mv community-crawler /etc/init.d/community-crawler
-- chmod 775 /etc/init.d/community-crawler
+- mv community-crawler /etc/init.d/community-crawler-py
+- chmod 775 /etc/init.d/community-crawler-py
 - systemctl daemon-reload
-- service community-crawler install
-- service community-crawler start
+- service community-crawler-py start
 
 ## MONGO DB 인덱스 추가
 - db.getCollection("archive").createIndex({ "count": 1 })
