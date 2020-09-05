@@ -8,14 +8,14 @@
 # Should-Stop:       $named
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start community_crawler.
-# Description:       Start community_crawler.
+# Short-Description: Start community-crawler-py.
+# Description:       Start community-crawler-py.
 ### END INIT INFO
 
 # deb http://extras.ubuntu.com/ubuntu trusty main
 # deb-src http://extras.ubuntu.com/ubuntu trusty main
 
-SERVICE_NAME=community_crawler
+SERVICE_NAME=community-crawler-py
 
 PYTHON_SERVE_PY=##INPUT_YOUR_PATH_BY_serve.py##
 PIDFILE=##INPUT_YOUR_PID_PATH##
@@ -46,7 +46,7 @@ install() {
   local SURE
   read SURE
   if [ "$SURE" = "yes" ]; then
-    update-rc.d -f community-crawler defaults
+    update-rc.d -f community-crawler-py defaults
   fi
 }
 
@@ -58,7 +58,7 @@ uninstall() {
     stop
     rm -f "$PIDFILE"
 
-    update-rc.d -f community-crawler remove
+    update-rc.d -f community-crawler-py remove
     rm -fv "$0"
   fi
 }
